@@ -55,6 +55,7 @@ For all tasks, we encourage participants to try different and original approache
 
 - All deadlines are 11:59PM UTC-12:00 (anywhere on Earth)
 - Release of the training and validation sets: February 10, 2023
+- Registration ends: March 3rd, 2023
 - Release of the test sets: March 15, 2023 
 - Run & code submission deadline: March 17, 2023
 - Release of the official results by the organizers: March 31, 2023
