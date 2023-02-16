@@ -21,10 +21,12 @@ For all tasks, we encourage participants to try different and original approache
 - Each team is allowed to submit a maximum of 3 runs for each task.
 - Each team is required to submit the code/models used to generate the outputs. 
 - Each run file should be named as follows: task{A|B|C}_teamName_run{1|2|3}.csv
-- Format: The run file should be a csv file with 2 columns: "TestID" and "SystemOutput". 
-  - For task A: SystemOutput is the generated note section (section header and content). 
+- Task A Format: The run file should be a csv file with 3 columns: "TestID", "SystemOutput1", and "SystemOutput2". 
+  - SystemOutput1 is the generated note section header. 
+  - SystemOutput2 is the generated note section content (summary of the conversation).
+- Format for tasks B & C: The run file should be a csv file with 2 columns: "TestID" and "SystemOutput".
   - For task B: SystemOutput is the full clinical note including the four main sections.
-  - For task C: SystemOutput is the full conversation associated with the input note. The doctor and patient turns should start with "Doctor:" and "Patient:" (without quotes).  
+  - For task C: SystemOutput is the full conversation associated with the input note. The doctor and patient turns should start with "Doctor:" and "Patient:" (without quotes).
   
 - Please use the submission_checker.py script to check and validate your run file before submission.
 - The submission forms will be made available with the release of the test sets on March 15, 2023. 
@@ -63,7 +65,7 @@ For all tasks, we encourage participants to try different and original approache
 - Notification of acceptance: May 22, 2023
 - Camera-ready paper due: June 6, 2023
 - Pre-recorded video due: June 12, 2023
-- ACL-ClinicalNLP Workshop: July 13-14, 2023, Toronto, Canada
+- ACL-ClinicalNLP Workshop: July 14, 2023, Toronto, Canada
 
 
 ## Organizers: 
