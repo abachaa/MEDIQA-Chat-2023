@@ -53,6 +53,37 @@ For all tasks, we encourage participants to try different and original approache
 - Organisers will evaluate the submissions and release the results to the participants on March 31.
 - Results will be considered official after submitting a working notes paper describing the used methods to the ACL-ClinicalNLP 2023 workshop. 
 
+## Code Submission Guidelines
+
+Please make sure that your inference code
+
+(1) can run within 48 hours for a size comparable to the train set
+(2) takes less than the resources needed for a Standard_NC24 machines from azure ( https://learn.microsoft.com/en-us/azure/virtual-machines/nc-series )
+(3) can run in a linux environment
+
+Your code package should at least include the following three files:
+
+install.sh
+- create an environment {teamname}_task{A,B,C}_venv
+- activate your environment
+- install all your requirements
+- then close your environment
+
+activate.sh
+- activate your environmentdecode_task{A,B,C}_run{1,2,3}.sh
+- first argument should be the source text
+- it is expected that the order of the resulting output be the same as the source text
+
+In summary, for us to run we should be able to get quick-started by doing the following commands:
+
+```
+./install.sh
+./activate.sh3.
+decode_task{A,B,C}_run{1,2,3}.sh [input]
+```
+Where the input should be in the *.csv format of the original test files.
+
+
 ## Schedule
 
 - All deadlines are 11:59PM UTC-12:00 (anywhere on Earth)
