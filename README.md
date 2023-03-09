@@ -86,6 +86,8 @@ decode_task{A,B,C}_run{1,2,3}.sh [input-csv-file]
 (where the input should be in the *.csv format of the original test files.)
 
 
+ * Our copy of the codes and models will be deleted after the release of the official results and confirmation emails will be sent to the participants. 
+
 ## Schedule
 
 - All deadlines are 11:59PM UTC-12:00 (anywhere on Earth)
