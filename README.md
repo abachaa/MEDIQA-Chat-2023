@@ -83,7 +83,8 @@ In summary, for us to run we should be able to get quick-started by doing the fo
 ./activate.sh
 decode_task{A,B,C}_run{1,2,3}.sh [input-csv-file]
 ```
-(where the input should be in the *.csv format of the original test files.)
+- The input should be in the *.csv format of the original test files
+- The output files should be named output_task{A,B,C}_run{1,2,3}
 
 
  * Our copy of the codes and models will be deleted after the release of the official results and confirmation emails will be sent to the participants. 
