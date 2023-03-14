@@ -84,7 +84,7 @@ In summary, for us to run we should be able to get quick-started by doing the fo
 decode_task{A,B,C}_run{1,2,3}.sh [input-csv-file]
 ```
 - The input should be in the *.csv format of the original test files
-- The output files should be named output_task{A,B,C}_run{1,2,3}
+- The output files should have the same format as the runs and should be named task{A|B|C}_teamName_run{1|2|3}.csv 
 
 
  * Our copy of the codes and models will be deleted after the release of the official results and confirmation emails will be sent to the participants. 
