@@ -186,7 +186,7 @@ if __name__ == "__main__" :
             ['precision', 'recall', 'f1'],
             ['bertscore_precision', 'bertscore_recall', 'bertscore_f1']
         ),
-        'bluert': (
+        'bleurt': (
             evaluate.load('bleurt', config_name='BLEURT-20'),
             {},
             ['scores'],
