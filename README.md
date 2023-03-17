@@ -95,7 +95,7 @@ decode_task{A,B,C}_run{1,2,3}.sh [input-csv-file]
 - Release of the training and validation sets: February 10, 2023
 - Registration ends: March 3rd, 2023
 - Release of the test sets: March 15, 2023 
-- Run & code submission deadline: March 17, 2023
+- Run & code submission deadline: March 22, 2023
 - Release of the official results by the organizers: March 31, 2023
 - Paper submission deadline: May 2, 2023
 - Notification of acceptance: May 22, 2023
