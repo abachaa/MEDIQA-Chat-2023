@@ -6,7 +6,7 @@
 ## Tasks
 - **Task A - Short Dialogue2Note Summarization**: generating a section summary (section header and content) associated with the short input conversation. Section header will be one of twenty normalized section labels provided with the training data. 
 - **Task B - Full Dialogue2Note Summarization**: generating a clinical note from the full input conversation. The note should include all relevant sections. Accepted first-level section headers are: "HISTORY OF PRESENT ILLNESS", "PHYSICAL EXAM", "RESULTS", "ASSESSMENT AND PLAN". 
-- **Task C - Note2Dialogue Generation**: generating a doctor-patient conversation from the full input note. This task addresses data augmentation through the generation of synthetic conversations from clinical notes. We encourage the participants to apply the models developed for this task to generate additional data for tasks A & B. Task C will be evaluated with i) automatic evaluation metrics and ii) downstream impact when using the shared models to perform data augmentation and train note generation models. 
+- **Task C - Note2Dialogue Generation**: generating a doctor-patient conversation from the full input note. This task addresses data augmentation through the generation of synthetic conversations from clinical notes. We encourage the participants to apply the models developed for this task to generate additional data for tasks A & B.
 
 For all tasks, we encourage participants to try different and original approaches to contribute to the community with new research insights. All participating teams will be invited to submit papers describing their models and methods to the ClinicalNLP workshop at ACL 2023. 
 
@@ -30,14 +30,13 @@ For all tasks, we encourage participants to try different and original approache
   
 - Please use the submission_checker.py script to check and validate your run file before submission.
 - The submission forms will be made available with the release of the test sets on March 15, 2023. 
-- We will provide more guidelines on preparing and submitting the codes/models for confirmation of the results and additional downstream evaluation.
+- We will provide more guidelines on preparing and submitting the codes/models for confirmation of the results.
 - After the competition, we encourage the teams to release their codes publicly with the publication of their papers. 
 
 
 ## Evaluation Methods
 - For the three tasks, we will use ensemble metrics that correlate well with human judgments. 
 - These ensemble metrics combine SOTA evaluation metrics including ROUGE, BERTScore and BLEURT. 
-- An additional downstream evaluation will be performed for task C. 
 
 ## Scripts
 
