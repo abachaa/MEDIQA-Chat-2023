@@ -12,11 +12,14 @@ section_tagger = SectionTagger()
 
 SECTION_DIVISIONS = ['subjective', 'objective_exam', 'objective_results', 'assessment_and_plan']
 
-TASKA_RANGE = [0,100]
-TASKA_PREFIX = 'taskA'
+TASKA_RANGE = [0,199]
+TASKA_PREFIX = ''
 
 TASKB_RANGE = [88,127]
 TASKB_PREFIX = 'D2N'
+
+TASKC_RANGE = [128,167]
+TASKC_PREFIX = 'D2N'
 
 
 def add_section_divisions(row, dialogue_column ):
@@ -43,7 +46,7 @@ def read_text(fn):
 
 
 def _validate(args, df_predictions, task_prefix, task_range):
-    id_range = df_predictions.apply(lambda row: int(row[args.id_column].replace(task_prefix, '')), axis=1)
+    id_range = df_predictions.apply(lambda row: int( str(row[args.id_column]).replace(task_prefix, '')), axis=1)
     min_id = min(id_range)
     max_id = max(id_range)
     if min_id < task_range[0] or min_id > task_range[1]:
@@ -59,8 +62,9 @@ def _validate(args, df_predictions, task_prefix, task_range):
 
 def test_id_range( args, df_predictions):
     # Make sure args.id_column is in range expected by task prefix (taskA or taskB)
-    id_1 = df_predictions.iloc[0][args.id_column]
-    if TASKA_PREFIX in id_1:
+    print( df_predictions.columns )
+    id_1 = '%s' %df_predictions.iloc[0][args.id_column]
+    if args.task == 'taskA' and TASKA_PREFIX in id_1:
         if args.task == 'taskB':
             print('Your ID prefixes do not match this tasks expected encounter_ids.')
             sys.exit(1)
@@ -69,7 +73,10 @@ def test_id_range( args, df_predictions):
         if args.task == 'taskA':
             print( 'Your ID prefixes do not match this tasks expected encounter_ids.' )
             sys.exit(1)
-        _validate(args, df_predictions, TASKB_PREFIX, TASKB_RANGE)
+        if args.task == 'taskB':
+            _validate(args, df_predictions, TASKB_PREFIX, TASKB_RANGE)
+        if args.task == 'taskC':
+            _validate(args, df_predictions, TASKC_PREFIX, TASKC_RANGE)
     else:
         print(f'Your encounter ID -> {id_1} does not have an identifiable prefix supported by this evaluation' )
         sys.exit(1)
@@ -97,8 +104,8 @@ if __name__ == "__main__" :
         '--task', action='store', default='taskB',
         help='summarization task, default is for full note (taskB). (use snippet, taskA, otherwise).'
     )
-    parser.add_argument('--id_column', default='encounter_id', help='column to use for identifying id.')
-    parser.add_argument('--note_column', default='note', help='column to use for identifying note.')
+    parser.add_argument('--id_column', default='TestID', help='column to use for identifying id.')
+    parser.add_argument('--note_column', default='SystemOutput', help='column to use for identifying note.')
     parser.add_argument('--dialogue_column', default='dialogue', help='column to use for identifying dialogue.')
     parser.add_argument(
         '--use_section_check', action='store_true', default=False,
@@ -113,7 +120,9 @@ if __name__ == "__main__" :
 
     args = parser.parse_args()
 
-    # Read in reference/hyp files
+    # Read in reference/hyp files -added the latin encoding as one of the participants' file had a strange character somewhere
+    #df_references = pd.read_csv(args.fn_gold, encoding='latin1')
+    #df_predictions = pd.read_csv(args.fn_sys, encoding='latin1')
     df_references = pd.read_csv(args.fn_gold)
     df_predictions = pd.read_csv(args.fn_sys)
 
@@ -146,15 +155,16 @@ if __name__ == "__main__" :
     # =========== ADD SECTION DIVISIONS IF THIS IS THE FULL ENCOUNTER TASK ==========
     if args.task == 'taskB':
         full_df = full_df.apply( lambda row: add_section_divisions( row, args.dialogue_column ), axis=1)
+        print( full_df.columns )
 
         # ===========CHECKS TO MAKE SURE THERE ARE SECTIONS ==========
-        total_detected_sections = sum([
-            full_df[f'prediction_{division}'].notna().sum() for division in SECTION_DIVISIONS
-        ])
-        if total_detected_sections == 0:
-            print('We detected 0 sections! - you can use override_section_check flag to run while ignoring this.')
-            if args.use_section_check :
-                sys.exit(1)
+        #total_detected_sections = sum([
+        #    full_df[f'prediction_{division}'].notna().sum() for division in SECTION_DIVISIONS
+        #])
+        #if total_detected_sections == 0:
+        #    print('We detected 0 sections! - you can use override_section_check flag to run while ignoring this.')
+        #    if args.use_section_check :
+        #        sys.exit(1)
 
         # Fill in missing section divisions as empty string
         full_df.fillna('#####EMPTY#####', inplace=True)
@@ -181,12 +191,12 @@ if __name__ == "__main__" :
             ['rouge1', 'rouge2', 'rougeL', 'rougeLsum']
         ),
         'bert_scorer': (
-            evaluate.load('bertscore'),
-            {'model_type': 'microsoft/deberta-xlarge-mnli'},
+            evaluate.load('bertscore', device='cpu'),
+            {'model_type': 'microsoft/deberta-xlarge-mnli', 'device':'cpu'},
             ['precision', 'recall', 'f1'],
             ['bertscore_precision', 'bertscore_recall', 'bertscore_f1']
         ),
-        'bleurt': (
+        'bluert': (
             evaluate.load('bleurt', config_name='BLEURT-20'),
             {},
             ['scores'],
@@ -211,21 +221,22 @@ if __name__ == "__main__" :
         indices = full_df[full_df['dataset'] == subset].index.tolist()
         cohorts.append((f'dataset-{subset}', indices))
 
-    for ind, division in enumerate(SECTION_DIVISIONS):
-        start = (ind + 1) * num_test
-        end = (ind + 2) * num_test
-        cohorts.append((f'division-{division}', list(range(start, end))))
+    if args.task == 'taskB':
+        for ind, division in enumerate(SECTION_DIVISIONS):
+            start = (ind + 1) * num_test
+            end = (ind + 2) * num_test
+            cohorts.append((f'division-{division}', list(range(start, end))))
 
-    # ######## CALCULATE PER-LENGTH SCORES (bigger than --note_length_cutoff=512 vs not) ########
-    df_shortsrc = full_df[full_df['src_len'] <= args.note_length_cutoff]
-    if len(df_shortsrc) > 0:
-        indices = df_shortsrc.index.tolist()
-        cohorts.append(('shorter-src', indices))
+        # ######## CALCULATE PER-LENGTH SCORES (bigger than --note_length_cutoff=512 vs not) ########
+        df_shortsrc = full_df[full_df['src_len'] <= args.note_length_cutoff]
+        if len(df_shortsrc) > 0:
+            indices = df_shortsrc.index.tolist()
+            cohorts.append(('shorter-src', indices))
 
-    df_longsrc = full_df[full_df['src_len'] > args.note_length_cutoff]
-    if len(df_longsrc) > 0:
-        indices = df_longsrc.index.tolist()
-        cohorts.append(('longer-src', indices))
+        df_longsrc = full_df[full_df['src_len'] > args.note_length_cutoff]
+        if len(df_longsrc) > 0:
+            indices = df_longsrc.index.tolist()
+            cohorts.append(('longer-src', indices))
 
     outputs = {k: filter_and_aggregate(all_scores, idxs) for (k, idxs) in cohorts}
 
