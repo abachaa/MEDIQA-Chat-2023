@@ -96,7 +96,7 @@ decode_task{A,B,C}_run{1,2,3}.sh [input-csv-file]
 - Release of the test sets: March 15, 2023 
 - Run & code submission deadline: March 22, 2023
 - Release of the official results by the organizers: April 7, 2023
-- Paper submission deadline: May 2, 2023
+- Paper submission deadline: May 4, 2023
 - Notification of acceptance: May 22, 2023
 - Camera-ready paper due: June 6, 2023
 - Pre-recorded video due: June 12, 2023
