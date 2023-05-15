@@ -13,8 +13,11 @@ For all tasks, we encourage participants to try different and original approache
 ## Datasets 
 
 **Training & Validation Sets:** Released to the registered participants on February 10, 2023. 
+**Test Sets:** Released to the participants on March 15, 2023. 
 
-**Test Sets:** Will be made available to the participants on March 15, 2023. 
+*(Post-challenge)* The MEDIQA-Chat shared tasks used the MTS-Dialog dataset for Task A and the ACI-Bench dataset for Task B and Task C. Fore more information about the datasets: 
+- **MTS-Dialog Dataset:** https://github.com/abachaa/MTS-Dialog
+- **ACI-Bench Dataset:** https://github.com/wyim/aci-bench 
 
 ## Submission Instructions
 
@@ -97,7 +100,7 @@ decode_task{A,B,C}_run{1,2,3}.sh [input-csv-file]
 - Run & code submission deadline: March 22, 2023
 - Release of the official results by the organizers: April 7, 2023
 - Paper submission deadline: May 4, 2023
-- Notification of acceptance: May 22, 2023
+- Notification of acceptance: May 29, 2023
 - Camera-ready paper due: June 6, 2023
 - Pre-recorded video due: June 12, 2023
 - ACL-ClinicalNLP Workshop: July 14, 2023, Toronto, Canada
